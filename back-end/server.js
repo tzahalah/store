@@ -36,9 +36,9 @@ app.get('/person', (req, res) => {
 
 // app.use("/student", student);
 
-app.use("/product", product);
-app.use("/order", order);
-app.use("/user", user);
+app.use("/api/product", product);
+app.use("/api/order", order);
+app.use("/api/user", user);
 
 app.use((req, res, next) => {
 
