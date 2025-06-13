@@ -58,6 +58,7 @@ jobs:
             cd ~/store/front-end/buyonline
             git pull origin main
             npm install
-            npm run build
+            sudo rm -rf build
+            NODE_OPTIONS="--max-old-space-size=3072" npm run build
             sudo rm -rf /var/www/html/*
             sudo cp -r build/* /var/www/html/
