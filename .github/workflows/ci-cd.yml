@@ -36,7 +36,8 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}           
+          command_timeout: 900 
           script: |
             cd ~/store/back-end
             git pull origin main
@@ -48,6 +49,7 @@ jobs:
     needs: filter                                  
     if: needs.filter.outputs.frontend == 'true'    
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Connect via SSH to deploy frontend
         uses: appleboy/ssh-action@v1.0.0
@@ -55,6 +57,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 1200 
           script: |
             rm -f ~/store/back-end/log.txt
             cd ~/store/front-end/buyonline
