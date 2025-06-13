@@ -45,7 +45,7 @@ const [show,setShow]=useState("false")
       dis(login(user));
    
      if ( userStatus != 'user')
-        { setMessage("משתמש לא קיים")
+        { setMessage("..משתמש לא קיים")
         }
      else 
      nav('/ProductList')
