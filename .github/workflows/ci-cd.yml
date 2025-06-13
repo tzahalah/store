@@ -1,0 +1,61 @@
+name: Smart Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  filter:
+    runs-on: ubuntu-latest 
+    outputs:               
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v3  
+
+      - name: Filter paths        
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            backend:
+              - 'back-end/**'             
+            frontend:
+              - 'front-end/buyonline/**'  
+
+ 
+  deploy-backend:
+    needs: filter                              
+    if: needs.filter.outputs.backend == 'true'    
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connect via SSH to deploy backend
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/store/back-end
+            git pull origin main
+            npm install
+            pm2 restart back-end
+
+
+  deploy-frontend:
+    needs: filter                                  
+    if: needs.filter.outputs.frontend == 'true'    
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connect via SSH to deploy frontend
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/store/front-end/buyonline
+            git pull origin main
+            npm install
+            npm run build
