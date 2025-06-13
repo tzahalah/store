@@ -19,7 +19,6 @@ export const addNewOrder = createAsyncThunk(
     async (arg, thankAPI) => {
         console.log("ji")
         let state= thankAPI.getState().order;
-        console.log(state)
         let today=new Date()
         state.currentOrder.orderDate=today
       // state. currentOrder.dueDate=new Date(today.setDate(today.getDate() + 7));

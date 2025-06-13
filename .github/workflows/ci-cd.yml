@@ -55,6 +55,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            rm -f ~/store/back-end/log.txt
             cd ~/store/front-end/buyonline
             git pull origin main
             npm install
