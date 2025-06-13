@@ -29,6 +29,7 @@ jobs:
     needs: filter                              
     if: needs.filter.outputs.backend == 'true'    
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Connect via SSH to deploy backend
         uses: appleboy/ssh-action@v1.0.0
