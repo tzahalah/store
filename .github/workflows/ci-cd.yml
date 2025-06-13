@@ -64,13 +64,6 @@ jobs:
             git pull origin main
             npm install
             sudo rm -rf build
-
-            nohup bash -c '
-              echo "🚀 Starting build at $(date)" >> ~/build.log
-              NODE_OPTIONS="--max-old-space-size=3072" npm run build >> ~/build.log 2>&1
-              if [ $? -eq 0 ]; then
-                echo "✅ Build succeeded at $(date)" >> ~/build.log
-
-            
+            NODE_OPTIONS="--max-old-space-size=3072" npm run build >> ~/build.log 2>&1
             sudo rm -rf /var/www/html/*
             sudo cp -r build/* /var/www/html/
