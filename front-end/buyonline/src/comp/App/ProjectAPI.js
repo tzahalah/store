@@ -2,7 +2,7 @@ import axios from "axios";
 //import { useSelector } from "react-redux";
 //const u= useSelector(s=>s.user.arrUser)
 //const p= useSelector(s=>s.product.arrProduct)
- const baseUrl="http://51-20-183-235/api/"
+ const baseUrl="http://51.20.183.235/api/"
  
  export const enter=async(name,password)=>{
  const res= await axios.post(baseUrl+"user/login ",{
