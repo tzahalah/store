@@ -37,7 +37,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}           
-          command_timeout: 20m 
+          command_timeout: 30m 
           script: |
             cd ~/store/back-end
             git pull origin main
@@ -57,13 +57,15 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          command_timeout: 20m 
+          command_timeout: 30m 
           script: |
             rm -f ~/store/back-end/log.txt
             cd ~/store/front-end/buyonline
             git pull origin main
             npm install
             sudo rm -rf build
+            pm2 stop back-end
             NODE_OPTIONS="--max-old-space-size=3072" npm run build >> ~/build.log 2>&1
+            pm2 start back-end
             sudo rm -rf /var/www/html/*
             sudo cp -r build/* /var/www/html/
